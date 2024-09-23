@@ -24,26 +24,26 @@ function playGame() {
         const humanSelection = getHumanChoice();
         const computerSelection = getComputerChoice();
         
-        playRound(humanSelection, computerSelection)
+        playRound(humanSelection, computerSelection);
         
     }
 }
 
 function getComputerChoice() {
-    var computerChoice = ""
-    var randomChoice = Math.random()
+    var computerChoice = "";
+    var randomChoice = Math.random();
     if (randomChoice <= 0.33) {
-        computerChoice = choices[1]
+        computerChoice = choices[1];
     }
     else if (randomChoice >= 0.66){
-        computerChoice = choices[2]
+        computerChoice = choices[2];
     }
     else {
-        computerChoice = choices[3]
+        computerChoice = choices[3];
     }
 
-    console.log(computerChoice)
-	return computerChoice
+    console.log(computerChoice);
+	return computerChoice;
 }
 
 function playRound(humanChoice, computerChoice) {
@@ -54,10 +54,10 @@ function playRound(humanChoice, computerChoice) {
         console.log("You win");
     }
     else if (humanChoice == computerChoice) {
-        console.log("Draw!")
+        console.log("Draw!");
     }
     else {
-        console.log("You lose")
+        console.log("You lose");
     }
 }
 
