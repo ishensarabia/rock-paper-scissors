@@ -1,65 +1,69 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('button');
+    const resultDiv = document.getElementById('result');
+    const scoreToWin = 5;
+    const choices = ['rock', 'paper', 'scissors'];
 
-var choices = {
-    1 : "rock",
-    2 : "paper",
-    3 : "scissors"
+    let userScore = 0;
+    let computerScore = 0;
 
-}
+    function displayResult(userChoice, computerChoice, result) {
+        if (userScore === scoreToWin) {
+            userScore = 0;
+            computerScore = 0;
+            resultDiv.innerHTML = `
+                <p>Congratulations! You won the game!</p>
+                <p>Click a button to play again!</p>
+            `;
 
-const numberOfRounds = 5
-
-var humanScore = 0
-var computerScore = 0
-
-function getHumanChoice() {
-	var humanChoice = prompt("Enter your choice")
-    humanChoice = humanChoice.toLowerCase()
-	console.log(humanChoice)
-    return humanChoice
-}
-
-function playGame() {
-    for (let index = 0; index < numberOfRounds; index++) {
-
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        
-        playRound(humanSelection, computerSelection);
-        
-    }
-}
-
-function getComputerChoice() {
-    var computerChoice = "";
-    var randomChoice = Math.random();
-    if (randomChoice <= 0.33) {
-        computerChoice = choices[1];
-    }
-    else if (randomChoice >= 0.66){
-        computerChoice = choices[2];
-    }
-    else {
-        computerChoice = choices[3];
+        }
+        else if (computerScore === scoreToWin) {
+            userScore = 0;
+            computerScore = 0;
+            resultDiv.innerHTML = `
+                <p>Sorry! You lost the game!</p>
+                <p>Click a button to play again!</p>
+            `;
+        }
+        else{
+            resultDiv.innerHTML = `
+                <p>You chose: ${userChoice}</p>
+                <p>Computer chose: ${computerChoice}</p>
+                <p>${result}</p>
+                <p>User score: ${userScore}</p>
+                <p>Computer score: ${computerScore}</p>
+            `;
+        }
     }
 
-    console.log(computerChoice);
-	return computerChoice;
-}
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const userChoice = button.id;
+            const computerChoice = getComputerChoice();
+            const result = determineWinner(userChoice, computerChoice);
+            displayResult(userChoice, computerChoice, result);
+        });
+    });
 
-function playRound(humanChoice, computerChoice) {
-    console.log(humanChoice, computerChoice);
-	if (humanChoice == choices[1] & computerChoice == choices[3] | 
-        humanChoice == choices[2] & computerChoice == choices[1] | 
-        humanChoice == choices[3] & computerChoice == choices[2]) {
-        console.log("You win");
+    function getComputerChoice() {
+        const randomIndex = Math.floor(Math.random() * choices.length);
+        return choices[randomIndex];
     }
-    else if (humanChoice == computerChoice) {
-        console.log("Draw!");
-    }
-    else {
-        console.log("You lose");
-    }
-}
 
-playGame();
+    function determineWinner(userChoice, computerChoice) {
+        if (userChoice === computerChoice) {
+            return 'It\'s a tie!';
+        } else if (
+            (userChoice === choices[0] && computerChoice === choices[2]) ||
+            (userChoice === choices[1] && computerChoice === choices[0]) ||
+            (userChoice === choices[2] && computerChoice === choices[1])
+        ) {
+            userScore++;
+            return 'You win!';
+        } else {
+            computerScore++;
+            return 'You lose!';
+        }
+    }
 
+});
